@@ -50,13 +50,23 @@ int main()
 	}
 
 	char ip[512];
+
+repeat:
 	printf("paste ip address: ");
 	scanf("%s", ip);
 
 	sockaddr_in addr;
 	addr.sin_family = AF_INET;
-	addr.sin_port = htons(8080);
-	addr.sin_addr.s_addr = (ip[0] == '0') ? inet_addr("192.168.1.2") : inet_addr(ip);
+
+	char *p_port = strchr(ip, ':');
+	if (!p_port)
+		goto repeat;
+
+	*p_port = 0;
+	p_port++;
+	int iport = atoi(p_port);
+	addr.sin_port = htons(iport);
+	addr.sin_addr.s_addr = (ip[0] == '0') ? htonl(INADDR_ANY) : inet_addr(ip);
 
 	waveInStart(h_wave_in); //Start filling buffers with sound data
 

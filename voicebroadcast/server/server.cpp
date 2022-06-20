@@ -16,7 +16,7 @@ char *p_recv_buffer = NULL;
 int main()
 {
 	printf("NET_Init: Initializing network...\n");
-	if (NET_Init(&server_socket, "192.168.1.2", 8080) != NET_OK) {
+	if (NET_Init(&server_socket, 0, 27000) != NET_OK) {
 		printf("NET_Init: Fatal error. Programm will be closed!\n");
 		return -1;
 	}
